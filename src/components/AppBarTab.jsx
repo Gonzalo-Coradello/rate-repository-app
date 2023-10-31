@@ -1,12 +1,12 @@
-import { Pressable } from 'react-native'
 import Text from './Text'
+import { Link } from 'react-router-native'
 
-export default function AppBarTab({ label }) {
+export default function AppBarTab({ label, path }) {
   return (
-    <Pressable>
+    <Link to={path}>
       <Text fontWeight='bold' fontSize='subheading' color='white'>
         {label}
       </Text>
-    </Pressable>
+    </Link>
   )
 }
