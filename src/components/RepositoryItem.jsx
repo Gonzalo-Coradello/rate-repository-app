@@ -17,7 +17,7 @@ export default function RepositoryItem({
     <View style={styles.container}>
       <View style={styles.info}>
         <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
-        <View style={styles.textGap}>
+        <View style={styles.repositoryInfo}>
           <Text fontWeight='bold' fontSize='subheading'>
             {fullName}
           </Text>
@@ -70,8 +70,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 18,
   },
-  textGap: {
+  repositoryInfo: {
     gap: 6,
+    maxWidth: '80%',
   },
   image: {
     width: 50,
