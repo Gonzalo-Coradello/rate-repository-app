@@ -21,7 +21,9 @@ const TextInput = ({ style, error, placeholder, secure, ...props }) => {
       style={[
         styles.input,
         textInputStyle,
-        { borderColor: error ? '#ff0000' : theme.colors.textSecondary },
+        {
+          borderColor: error ? theme.colors.error : theme.colors.textSecondary,
+        },
       ]}
       {...props}
     />
