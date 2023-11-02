@@ -1,7 +1,7 @@
 import { View, Image, StyleSheet } from 'react-native'
-import theme from '../theme'
-import Text from './Text'
-import { formatNumber } from '../utils'
+import theme from '../../theme'
+import Text from '../Text'
+import { formatNumber } from '../../utils'
 
 export default function RepositoryItem({
   fullName,
