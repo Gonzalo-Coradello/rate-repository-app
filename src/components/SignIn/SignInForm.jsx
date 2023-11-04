@@ -6,7 +6,7 @@ export default function SignInForm({ onSubmit }) {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <FormikTextInput name='email' placeholder='Email' />
+        <FormikTextInput name='username' placeholder='Username' />
         <FormikTextInput name='password' placeholder='Password' secure />
         <Button title='Sign in' onPress={onSubmit} />
       </View>

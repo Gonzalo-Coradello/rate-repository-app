@@ -1,16 +1,17 @@
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import SignInForm from './SignInForm'
+import useSignIn from '../../hooks/useSignIn'
 
 const initialValues = {
-  email: '',
+  username: '',
   password: '',
 }
 
 const validationSchema = yup.object().shape({
-  email: yup
+  username: yup
     .string()
-    .email('Enter a valid email')
+    .min(4, 'Username must be at least 4 characters')
     .required('Email is required'),
   password: yup
     .string()
@@ -19,8 +20,20 @@ const validationSchema = yup.object().shape({
 })
 
 export default function SignIn() {
-  const onSubmit = values => {
-    console.log(values)
+  const [signIn] = useSignIn()
+
+  const onSubmit = async values => {
+    const { username, password } = values
+
+    console.log(username, password)
+
+    try {
+      const { data } = await signIn({ username, password })
+      console.log(data)
+      console.log(data.authenticate.accessToken)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
