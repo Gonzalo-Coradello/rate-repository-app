@@ -14,7 +14,7 @@ export default function RepositoryItem({
   ownerAvatarUrl,
 }) {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID='repositoryItem'>
       <View style={styles.info}>
         <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
         <View style={styles.repositoryInfo}>
