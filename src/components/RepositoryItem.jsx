@@ -1,9 +1,12 @@
-import { View, Image, StyleSheet } from 'react-native'
-import theme from '../../theme'
-import Text from '../Text'
-import { formatNumber } from '../../utils'
+import { View, Image, StyleSheet, Pressable } from 'react-native'
+import theme from '../theme'
+import Text from './Text'
+import { formatNumber } from '../utils'
+import { useNavigate } from 'react-router-native'
+import * as Linking from 'expo-linking'
 
 export default function RepositoryItem({
+  id,
   fullName,
   description,
   language,
@@ -12,9 +15,17 @@ export default function RepositoryItem({
   ratingAverage,
   reviewCount,
   ownerAvatarUrl,
+  url,
+  hasButton = false,
 }) {
+  const navigate = useNavigate()
+
   return (
-    <View style={styles.container} testID='repositoryItem'>
+    <Pressable
+      style={styles.container}
+      testID='repositoryItem'
+      onPress={() => navigate(`/${id}`)}
+    >
       <View style={styles.info}>
         <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
         <View style={styles.repositoryInfo}>
@@ -56,7 +67,17 @@ export default function RepositoryItem({
           <Text color='textSecondary'>Rating</Text>
         </View>
       </View>
-    </View>
+      {hasButton && (
+        <Pressable
+          style={styles.githubButton}
+          onPress={() => Linking.openURL(url)}
+        >
+          <Text fontSize='subheading' fontWeight='bold' color='white'>
+            Open on GitHub
+          </Text>
+        </Pressable>
+      )}
+    </Pressable>
   )
 }
 
@@ -92,5 +113,11 @@ const styles = StyleSheet.create({
   },
   statistic: {
     alignItems: 'center',
+  },
+  githubButton: {
+    backgroundColor: theme.colors.primary,
+    alignItems: 'center',
+    paddingVertical: 16,
+    borderRadius: 5,
   },
 })
