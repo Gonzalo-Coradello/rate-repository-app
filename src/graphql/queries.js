@@ -1,4 +1,4 @@
-import { REPOSITORY_DETAILS } from './fragments'
+import { REPOSITORY_DETAILS, REPOSITORY_WITH_REVIEWS } from './fragments'
 
 const { gql } = require('@apollo/client')
 
@@ -18,11 +18,11 @@ export const GET_REPOSITORIES = gql`
 export const GET_REPOSITORY = gql`
   query Repository($repositoryId: ID!) {
     repository(id: $repositoryId) {
-      ...RepositoryDetails
+      ...RepositoryWithReviews
     }
   }
 
-  ${REPOSITORY_DETAILS}
+  ${REPOSITORY_WITH_REVIEWS}
 `
 
 export const GET_CURRENT_USER = gql`
