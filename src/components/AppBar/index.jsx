@@ -32,7 +32,10 @@ const AppBar = () => {
       <ScrollView horizontal contentContainerStyle={styles.contentContainer}>
         <AppBarTab label='Repositories' path='/' />
         {me?.username ? (
-          <SignOutTab signOut={handleSignOut} />
+          <>
+            <AppBarTab label='Create a review' path='/new_review' />
+            <SignOutTab signOut={handleSignOut} />
+          </>
         ) : (
           <AppBarTab label='Sign in' path='/signin' />
         )}
