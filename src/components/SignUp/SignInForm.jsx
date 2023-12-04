@@ -2,13 +2,18 @@ import { Button, StyleSheet, View } from 'react-native'
 import FormikTextInput from '../FormikTextInput'
 import theme from '../../theme'
 
-export default function SignInForm({ onSubmit }) {
+export default function SignUpForm({ onSubmit }) {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
         <FormikTextInput name='username' placeholder='Username' />
         <FormikTextInput name='password' placeholder='Password' secure />
-        <Button title='Sign in' onPress={onSubmit} />
+        <FormikTextInput
+          name='confirmation'
+          placeholder='Password confirmation'
+          secure
+        />
+        <Button title='Sign up' onPress={onSubmit} />
       </View>
     </View>
   )

@@ -32,7 +32,6 @@ export default function NewReview() {
     try {
       const { data } = await createReview(values)
       const id = data.createReview.repositoryId
-      console.log(id)
       navigate(`/${id}`)
     } catch (e) {
       console.log(e)
