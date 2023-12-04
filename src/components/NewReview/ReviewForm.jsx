@@ -9,8 +9,16 @@ export default function ReviewForm({ onSubmit }) {
       <View style={styles.form}>
         <FormikTextInput name='ownerName' placeholder='Repository owner name' />
         <FormikTextInput name='repositoryName' placeholder='Repository name' />
-        <FormikTextInput name='rating' placeholder='Rating between 0 and 100' />
-        <FormikTextInput name='review' placeholder='Review' multiline />
+        <FormikTextInput
+          name='rating'
+          placeholder='Rating between 0 and 100'
+          numeric
+        />
+        <FormikTextInput
+          name='text'
+          placeholder='Review (optional)'
+          multiline
+        />
         <Button title='Create review' onPress={onSubmit} />
       </View>
     </View>

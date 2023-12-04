@@ -10,19 +10,28 @@ const styles = StyleSheet.create({
   },
 })
 
-const FormikTextInput = ({ name, placeholder, secure = false, ...props }) => {
+const FormikTextInput = ({
+  name,
+  placeholder,
+  secure = false,
+  numeric = false,
+  ...props
+}) => {
   const [field, meta, helpers] = useField(name)
   const showError = meta.touched && meta.error
 
   return (
     <View>
       <TextInput
-        onChangeText={value => helpers.setValue(value)}
+        onChangeText={value =>
+          helpers.setValue(numeric ? Number(value) : value)
+        }
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
         placeholder={placeholder}
         secure={secure}
+        keyboardType={numeric ? 'numeric' : 'default'}
         {...props}
       />
       {showError && (
