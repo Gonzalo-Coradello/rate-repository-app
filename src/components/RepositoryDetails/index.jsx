@@ -2,7 +2,7 @@ import { FlatList } from 'react-native'
 import { useParams } from 'react-router-native'
 import useRepository from '../../hooks/useRepository'
 import RepositoryItem from '../RepositoryItem'
-import ReviewItem from './ReviewItem'
+import ReviewItem from '../ReviewItem'
 
 export default function RepositoryDetails() {
   const { id } = useParams()

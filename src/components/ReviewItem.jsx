@@ -1,11 +1,11 @@
 import { View } from 'react-native'
 import { format } from 'date-fns'
 import { StyleSheet } from 'react-native'
-import theme from '../../theme'
-import Text from '../Text'
+import theme from '../theme'
+import Text from './Text'
 
-export default function ReviewItem({ review }) {
-  const { text, rating, createdAt, user } = review
+export default function ReviewItem({ review, ownReviews = false }) {
+  const { text, rating, createdAt, user, repository } = review
 
   return (
     <View style={styles.container}>
@@ -16,7 +16,9 @@ export default function ReviewItem({ review }) {
       </View>
       <View style={styles.main}>
         <View>
-          <Text fontWeight='bold'>{user.username}</Text>
+          <Text fontWeight='bold'>
+            {ownReviews ? repository.fullName : user.username}
+          </Text>
           <Text color='textSecondary'>
             {format(new Date(createdAt), 'MM/dd/yyyy')}
           </Text>

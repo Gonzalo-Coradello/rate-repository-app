@@ -34,6 +34,7 @@ const AppBar = () => {
         {me?.username ? (
           <>
             <AppBarTab label='Create a review' path='/new_review' />
+            <AppBarTab label='My reviews' path='/my_reviews' />
             <SignOutTab signOut={handleSignOut} />
           </>
         ) : (

@@ -11,8 +11,6 @@ const useCreateUser = () => {
       variables: { username, password },
     })
 
-    console.log(data.createUser.id)
-
     if (data.createUser.id) {
       await signIn({ username, password })
     }
