@@ -3,8 +3,11 @@ import { REPOSITORY_DETAILS, REPOSITORY_WITH_REVIEWS } from './fragments'
 const { gql } = require('@apollo/client')
 
 export const GET_REPOSITORIES = gql`
-  query {
-    repositories {
+  query AllRepositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+  ) {
+    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
       edges {
         node {
           ...RepositoryDetails
