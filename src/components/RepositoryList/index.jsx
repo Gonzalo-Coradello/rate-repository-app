@@ -1,8 +1,8 @@
 import { FlatList, View, StyleSheet } from 'react-native'
 import RepositoryItem from '../RepositoryItem'
 import useRepositories from '../../hooks/useRepositories'
-import RNPickerSelect from 'react-native-picker-select'
 import { useState } from 'react'
+import { Menu, Button } from 'react-native-paper'
 
 const styles = StyleSheet.create({
   separator: {
@@ -27,39 +27,73 @@ const styles = StyleSheet.create({
 })
 
 const orderOptions = {
-  latest: { orderBy: 'CREATED_AT', orderDirection: 'DESC' },
-  highestRated: { orderBy: 'RATING_AVERAGE', orderDirection: 'DESC' },
-  lowestRated: { orderBy: 'RATING_AVERAGE', orderDirection: 'ASC' },
+  latest: {
+    orderBy: 'CREATED_AT',
+    orderDirection: 'DESC',
+    title: 'Latest repositories',
+  },
+  highestRated: {
+    orderBy: 'RATING_AVERAGE',
+    orderDirection: 'DESC',
+    title: 'Highest rated repositories',
+  },
+  lowestRated: {
+    orderBy: 'RATING_AVERAGE',
+    orderDirection: 'ASC',
+    title: 'Lowest rated repositories',
+  },
 }
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-const Picker = ({ setOrder }) => (
-  <RNPickerSelect
-    onValueChange={value => setOrder(value)}
-    items={[
-      { label: 'Latest repositories', value: orderOptions.latest },
-      {
-        label: 'Highest rated repositories',
-        value: orderOptions.highestRated,
-      },
-      {
-        label: 'Lowest rated repositories',
-        value: orderOptions.lowestRated,
-      },
-    ]}
-    style={{ inputAndroid: styles.inputAndroid, inputIOS: styles.inputIOS }}
-  />
-)
+const Picker = ({ setOrder, order }) => {
+  const [visible, setVisible] = useState(false)
 
-export const RepositoryListContainer = ({ repositories, setOrder }) => {
+  return (
+    <Menu
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      anchor={<Button onPress={() => setVisible(true)}>{order.title}</Button>}
+      style={{
+        paddingTop: 45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: '100%',
+      }}
+    >
+      <Menu.Item
+        onPress={() => {
+          setOrder(orderOptions.latest)
+          setVisible(false)
+        }}
+        title={orderOptions.latest.title}
+      />
+      <Menu.Item
+        onPress={() => {
+          setOrder(orderOptions.highestRated)
+          setVisible(false)
+        }}
+        title={orderOptions.highestRated.title}
+      />
+      <Menu.Item
+        onPress={() => {
+          setOrder(orderOptions.lowestRated)
+          setVisible(false)
+        }}
+        title={orderOptions.lowestRated.title}
+      />
+    </Menu>
+  )
+}
+
+export const RepositoryListContainer = ({ repositories, setOrder, order }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : []
 
   return (
     <FlatList
-      ListHeaderComponent={<Picker setOrder={setOrder} />}
+      ListHeaderComponent={<Picker setOrder={setOrder} order={order} />}
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem {...item} />}
@@ -75,6 +109,10 @@ export const RepositoryList = () => {
   )
 
   return (
-    <RepositoryListContainer repositories={repositories} setOrder={setOrder} />
+    <RepositoryListContainer
+      repositories={repositories}
+      setOrder={setOrder}
+      order={order}
+    />
   )
 }
