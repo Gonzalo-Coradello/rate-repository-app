@@ -2,7 +2,8 @@ import { FlatList, View, StyleSheet } from 'react-native'
 import RepositoryItem from '../RepositoryItem'
 import useRepositories from '../../hooks/useRepositories'
 import { useState } from 'react'
-import { Menu, Button } from 'react-native-paper'
+import RepositoryListHeader from './RepositoryListHeader'
+import { useDebounce } from 'use-debounce'
 
 const styles = StyleSheet.create({
   separator: {
@@ -46,54 +47,28 @@ const orderOptions = {
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-const Picker = ({ setOrder, order }) => {
-  const [visible, setVisible] = useState(false)
-
-  return (
-    <Menu
-      visible={visible}
-      onDismiss={() => setVisible(false)}
-      anchor={<Button onPress={() => setVisible(true)}>{order.title}</Button>}
-      style={{
-        paddingTop: 45,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        width: '100%',
-      }}
-    >
-      <Menu.Item
-        onPress={() => {
-          setOrder(orderOptions.latest)
-          setVisible(false)
-        }}
-        title={orderOptions.latest.title}
-      />
-      <Menu.Item
-        onPress={() => {
-          setOrder(orderOptions.highestRated)
-          setVisible(false)
-        }}
-        title={orderOptions.highestRated.title}
-      />
-      <Menu.Item
-        onPress={() => {
-          setOrder(orderOptions.lowestRated)
-          setVisible(false)
-        }}
-        title={orderOptions.lowestRated.title}
-      />
-    </Menu>
-  )
-}
-
-export const RepositoryListContainer = ({ repositories, setOrder, order }) => {
+export const RepositoryListContainer = ({
+  repositories,
+  setOrder,
+  order,
+  searchQuery,
+  setSearchQuery,
+}) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : []
 
   return (
     <FlatList
-      ListHeaderComponent={<Picker setOrder={setOrder} order={order} />}
+      ListHeaderComponent={
+        <RepositoryListHeader
+          setOrder={setOrder}
+          order={order}
+          orderOptions={orderOptions}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      }
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem {...item} />}
@@ -103,16 +78,21 @@ export const RepositoryListContainer = ({ repositories, setOrder, order }) => {
 
 export const RepositoryList = () => {
   const [order, setOrder] = useState(orderOptions.latest)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchKeyword] = useDebounce(searchQuery, 500)
 
-  const { repositories } = useRepositories(
-    order ? order : { orderBy: 'CREATED_AT', orderDirection: 'DESC' }
-  )
+  const { repositories } = useRepositories({
+    ...order,
+    searchKeyword,
+  })
 
   return (
     <RepositoryListContainer
       repositories={repositories}
       setOrder={setOrder}
       order={order}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
     />
   )
 }
